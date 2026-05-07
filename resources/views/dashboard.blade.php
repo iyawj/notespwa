@@ -97,8 +97,16 @@
 
         <!-- Header -->
         <div class="header">
-            <h5>Hello, {{ auth()->user()->name }}</h5>
+            
+            <h6>
+                @php $user = auth()->user(); @endphp
 
+                @if($user->role == 1)
+                    Hello, {{ $user->name }}, these are all the notes and their authors
+                @else
+                    Hello, {{ $user->name }}
+                @endif
+            </h6>
             <form method="POST" action="{{ route('logout') }}">
             @csrf
             <button type="submit" class="btn btn-sm btn-secondary">Logout</button>
@@ -129,8 +137,14 @@
         @if(isset($notes) && count($notes) > 0)
             @foreach($notes as $note)
                 <div class="note-card">
+                    
                     <div class="note-title">{{ $note->title }}</div>
                     <div class="note-content">{{ $note->content }}</div>
+                    @if(auth()->user()->role == 1)
+                        <small class="text-dark">
+                            <strong>Author:</strong> {{ $note->user->name }}
+                        </small>
+                    @endif
 
                     <form method="POST" action="/notes/{{ $note->id }}" class="mt-2">
                         @csrf
@@ -138,6 +152,7 @@
                         <button class="btn btn-sm btn-danger w-100">Delete</button>
                     </form>
                 </div>
+
             @endforeach
         @else
             <div class="empty-message">No notes yet. Add one above!</div>

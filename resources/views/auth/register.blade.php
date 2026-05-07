@@ -33,7 +33,7 @@
         }
 
         .auth-card h5 {
-            font-size: 1.2rem;  
+            font-size: 1.2rem; 
             margin-bottom: 15px;
         }
 
@@ -65,7 +65,13 @@
                 @error('password') <small class="text-danger">{{ $message }}</small> @enderror
             </div>
 
+            <div class="mb-3">
+                <label class="form-label">Admin Key (optional)</label>
+                <input type="text" name="admin_key" class="form-control">
+            </div>
+
             <button type="submit" class="btn btn-primary w-100">Register</button>
+            <p class="text-center mt-3">Already have an account? <a href="{{ route('login') }}">Login here</a></p>
         </form>
     </div>
 </body>
