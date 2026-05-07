@@ -47,10 +47,11 @@ class NoteController extends Controller
         $user = Auth::user();
 
         if ($user->role == 1) {
-            $notes = Note::latest()->get();
-        } else {
-            $notes = $user->notes;
+            $notes = Note::with('user')->latest()->get();
+            return view('admin.dashboard', compact('notes'));
         }
+
+        $notes = $user->notes;
 
         return view('dashboard', compact('notes'));
     }
